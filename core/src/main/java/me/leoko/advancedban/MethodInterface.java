@@ -401,7 +401,7 @@ public interface MethodInterface {
      * @param perm         the perm
      * @param notification the notification
      */
-    void notify(String perm, List<String> notification);
+    void notify(String perm, List<String> notification, String operator, String victim);
 
     /**
      * Log a message.

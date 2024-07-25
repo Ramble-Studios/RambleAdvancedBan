@@ -156,7 +156,7 @@ public class Punishment {
                 "DATE", getDate(start),
                 "COUNT", cWarnings + "");
 
-        mi.notify("ab.notify." + getType().getName(), notification);
+        mi.notify("ab.notify." + getType().getName(), notification, getOperator(), getName());
     }
 
     public void delete() {
@@ -184,7 +184,7 @@ public class Punishment {
         if (who != null) {
             String message = MessageManager.getMessage("Un" + getType().getBasic().getConfSection("Notification"),
                     true, "OPERATOR", who, "NAME", getName());
-            mi.notify("ab.undoNotify." + getType().getBasic().getName(), Collections.singletonList(message));
+            mi.notify("ab.undoNotify." + getType().getBasic().getName(), Collections.singletonList(message), who, getName());
 
             Universal.get().debug(who + " is deleting a punishment");
         }

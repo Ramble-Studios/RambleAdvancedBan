@@ -290,7 +290,7 @@ public class TestMethods implements MethodInterface {
     }
 
     @Override
-    public void notify(String perm, List<String> notification) {
+    public void notify(String perm, List<String> notification, String operator) {
         notification.forEach(System.out::println);
     }
 

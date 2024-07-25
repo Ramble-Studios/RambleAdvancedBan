@@ -381,7 +381,7 @@ public class BukkitMethods implements MethodInterface {
     }
 
     @Override
-    public void notify(String perm, List<String> notification) {
+    public void notify(String perm, List<String> notification, String operator) {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(player -> hasPerms(player, perm))

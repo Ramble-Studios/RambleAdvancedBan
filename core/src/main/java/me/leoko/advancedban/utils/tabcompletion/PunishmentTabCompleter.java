@@ -34,7 +34,7 @@ public class PunishmentTabCompleter implements TabCompleter {
             for (Object player : methodInterface.getOnlinePlayers()){
                 suggestions.add(methodInterface.getName(player));
             }
-            suggestions.add("[Name]");
+            suggestions.add("[Nombre]");
         } else if(temporary && args.length == 2){
             String current = args[args.length-1];
             String amount = current.toLowerCase().split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[0];
@@ -50,7 +50,7 @@ public class PunishmentTabCompleter implements TabCompleter {
                 suggestions.add("#"+layout);
             }
         } else if((temporary && args.length == 3) || args.length == 2) {
-            suggestions.add("Reason...");
+            suggestions.add("Razón...");
             for (String layout : methodInterface.getKeys(methodInterface.getLayouts(), "Message")) {
                 suggestions.add("@"+layout);
             }

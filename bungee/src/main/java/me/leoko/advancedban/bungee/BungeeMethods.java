@@ -22,7 +22,9 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -416,14 +418,62 @@ public class BungeeMethods implements MethodInterface {
     }
 
     @Override
-    public void notify(String perm, List<String> notification) {
+    public void notify(String perm, List<String> notification, String operator, String victim) {
         if (Universal.isRedis()) {
             notification.forEach((str) -> RedisBungee.getApi().sendChannelMessage("advancedban:main", "notification " + perm + " " + str));
         } else {
-            ProxyServer.getInstance().getPlayers()
-                    .stream()
-                    .filter((pp) -> (Universal.get().hasPerms(pp, perm)))
-                    .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+            ServerInfo svo;
+            ServerInfo svp;
+            if(!operator.equals("CONSOLE")) {
+                if(ProxyServer.getInstance().getPlayer(victim) != null)
+                    svo = ProxyServer.getInstance().getPlayer(operator).getServer().getInfo();
+                else {
+                    svo = null;
+                }
+            } else {
+                svo = null;
+            }
+            if(ProxyServer.getInstance().getPlayer(victim) != null){
+                svp = ProxyServer.getInstance().getPlayer(victim).getServer().getInfo();
+            } else {
+                svp = null;
+            }
+            if(svo != null && svp != null){
+                if(svo == svp){
+                    ProxyServer.getInstance().getPlayers()
+                            .stream()
+                            .filter(pp -> Universal.get().hasPerms(pp, perm))
+                            .filter(player1 -> player1.getServer().getInfo().equals(svp))
+                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+                }else{
+                    ProxyServer.getInstance().getPlayers()
+                            .stream()
+                            .filter(pp -> Universal.get().hasPerms(pp, perm))
+                            .filter(player1 -> player1.getServer().getInfo().equals(svo))
+                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+                    ProxyServer.getInstance().getPlayers()
+                            .stream()
+                            .filter(pp -> Universal.get().hasPerms(pp, perm))
+                            .filter(player1 -> player1.getServer().getInfo().equals(svp))
+                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+                }
+                return;
+            }
+            if(svo != null){
+                ProxyServer.getInstance().getPlayers()
+                        .stream()
+                        .filter(pp -> Universal.get().hasPerms(pp, perm))
+                        .filter(player1 -> player1.getServer().getInfo().equals(svo))
+                        .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+            }
+            if(svp != null){
+                ProxyServer.getInstance().getPlayers()
+                        .stream()
+                        .filter(pp -> Universal.get().hasPerms(pp, perm))
+                        .filter(player1 -> player1.getServer().getInfo().equals(svp))
+                        .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+            }
+
         }
     }
 
