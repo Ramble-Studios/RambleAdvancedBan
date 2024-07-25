@@ -229,11 +229,11 @@ public class BungeeMethods implements MethodInterface {
     @Override
     public void kickPlayer(String player, String reason) {
         if(BungeeMain.getCloudSupport() != null){
-            BungeeMain.getCloudSupport().kick(getPlayer(player).getUniqueId(), reason);
+            BungeeMain.getCloudSupport().kick(getPlayer(player).getUniqueId(), reason.replace("CONSOLE", "Servidor"));
         }else if (Universal.isRedis()) {
             RedisBungee.getApi().sendChannelMessage("advancedban:main", "kick " + player + " " + reason);
         } else {
-            getPlayer(player).disconnect(TextComponent.fromLegacyText(reason));
+            getPlayer(player).disconnect(TextComponent.fromLegacyText(reason.replace("CONSOLE", "Servidor")));
         }
     }
 
@@ -444,18 +444,18 @@ public class BungeeMethods implements MethodInterface {
                             .stream()
                             .filter(pp -> Universal.get().hasPerms(pp, perm))
                             .filter(player1 -> player1.getServer().getInfo().equals(svp))
-                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str.replace("CONSOLE", "Servidor"))));
                 }else{
                     ProxyServer.getInstance().getPlayers()
                             .stream()
                             .filter(pp -> Universal.get().hasPerms(pp, perm))
                             .filter(player1 -> player1.getServer().getInfo().equals(svo))
-                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str.replace("CONSOLE", "Servidor"))));
                     ProxyServer.getInstance().getPlayers()
                             .stream()
                             .filter(pp -> Universal.get().hasPerms(pp, perm))
                             .filter(player1 -> player1.getServer().getInfo().equals(svp))
-                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str)));
+                            .forEachOrdered((pp) -> notification.forEach((str) -> sendMessage(pp, str.replace("CONSOLE", "Servidor"))));
                 }
                 return;
             }

@@ -108,7 +108,7 @@ public class Punishment {
             } else {
                 if (getType().getBasic() != PunishmentType.NOTE)
                     for (String str : getLayout()) {
-                        mi.sendMessage(p, str);
+                        mi.sendMessage(p, str.replace("CONSOLE", "Servidor"));
                     }
                 PunishmentManager.get().getLoadedPunishments(false).add(this);
             }
