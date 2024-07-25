@@ -47,7 +47,7 @@ public class Punishment {
     }
 
     public String getReason() {
-        return (reason == null ? mi.getString(mi.getConfig(), "DefaultReason", "none") : reason).replaceAll("'", "");
+        return (reason == null ? mi.getString(mi.getConfig(), "DefaultReason", "none") : reason).replace("CONSOLE", "Servidor").replaceAll("'", "");
     }
 
     public String getHexId() {
