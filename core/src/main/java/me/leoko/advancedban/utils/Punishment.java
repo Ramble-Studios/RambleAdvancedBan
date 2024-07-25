@@ -47,7 +47,7 @@ public class Punishment {
     }
 
     public String getReason() {
-        return (reason == null ? mi.getString(mi.getConfig(), "DefaultReason", "none") : reason).replace("CONSOLE", "Servidor").replaceAll("'", "");
+        return (reason == null ? mi.getString(mi.getConfig(), "DefaultReason", "none") : reason).replaceAll("'", "");
     }
 
     public String getHexId() {
@@ -199,7 +199,7 @@ public class Punishment {
         return MessageManager.getLayout(
                 isLayout ? mi.getLayouts() : mi.getMessages(),
                 isLayout ? "Message." + getReason().split(" ")[0].substring(1) : getType().getName() + ".Layout",
-                "OPERATOR", getOperator(),
+                "OPERATOR", getOperator().replace("CONSOLE", "Servidor"),
                 "PREFIX", mi.getBoolean(mi.getConfig(), "Disable Prefix", false) ? "" : MessageManager.getMessage("General.Prefix"),
                 "DURATION", getDuration(false),
                 "REASON", isLayout ? (getReason().split(" ").length < 2 ? "" : getReason().substring(getReason().split(" ")[0].length() + 1)) : getReason(),
