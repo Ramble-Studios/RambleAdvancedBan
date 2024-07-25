@@ -590,7 +590,7 @@ public enum Command {
     }
 
     public static class CommandInput {
-        private Object sender;
+        private final Object sender;
         private String[] args;
 
         CommandInput(Object sender, String[] args) {
